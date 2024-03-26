@@ -7,12 +7,10 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Table(name: 'carros')]
 class Carro
 {
-    #[ORM\Id]
-    #[ORM\Column(type: 'integer')]
-    #[ORM\GeneratedValue]
+    #[Id, Column(type: 'integer'), GeneratedValue(strategy: 'AUTO')]
     private int|null $id = null;
 
-    #[ORM\Column(type: 'string')]
+    #[Column(type: 'string', unique: true, nullable: false)]
     public $placa;
 
     public function getPlaca(): string
