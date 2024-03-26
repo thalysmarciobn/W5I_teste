@@ -1,7 +1,11 @@
 {
     "require": {
-        "slim/slim": "*",
-        "slim/php-view": "*",
-        "zircote/swagger-php": "*"
+        "slim/slim": "^4.13",
+        "slim/php-view": "^3.2",
+        "zircote/swagger-php": "^4.8",
+        "nyholm/psr7": "^1.8",
+        "laminas/laminas-httphandlerrunner": "^2.10",
+        "nyholm/psr7-server": "^1.1",
+        "doctrine/annotations": "^2.0"
     }
 }
