@@ -1,8 +1,8 @@
 <?php
-
 namespace Domain\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use OpenApi\Annotations as OA;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'carros')]

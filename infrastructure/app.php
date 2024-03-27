@@ -1,4 +1,6 @@
 <?php
+namespace Infrastructure;
+
 use Psr\Container\ContainerInterface;
 use Slim\App;
 use Slim\Factory\AppFactory;
