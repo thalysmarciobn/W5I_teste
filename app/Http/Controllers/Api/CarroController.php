@@ -35,6 +35,11 @@ final class CarroController {
      * )
      */
     public function lista(Request $request, Response $response) {
+        $response = $response
+            ->withHeader('Access-Control-Allow-Origin', '*')
+            ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
+            ->withHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+
         $carroRepository = $this->entityManager->getRepository(Carro::class);
         $carros = $carroRepository->findAll();
         return new JsonResponse($carros);

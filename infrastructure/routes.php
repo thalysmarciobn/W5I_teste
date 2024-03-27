@@ -7,11 +7,11 @@ use Slim\App;
 use Slim\Routing\RouteCollectorProxy;
 
 return function (App $app) {
-    $app->group('/carros', new Group(static function (RouteCollectorProxy $group): void {
-        $group->get('/lista', [CarroController::class, 'lista']);
-    }));
+        $app->group('/carros', new Group(static function (RouteCollectorProxy $group): void {
+            $group->get('/lista', [CarroController::class, 'lista']);
+        }));
 
-    $app->get('/swagger.json', function ($request, $response) use ($app) {
+    $app->get('/swagger', function ($request, $response) use ($app) {
         $swaggerJson = file_get_contents(__DIR__ . '/swagger.json');
 
         $response->getBody()->write($swaggerJson);
