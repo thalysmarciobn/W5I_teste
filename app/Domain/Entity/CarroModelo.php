@@ -1,6 +1,7 @@
 <?php
 namespace App\Domain\Entity;
 
+use Cassandra\Date;
 use Doctrine\ORM\Mapping as ORM;
 use OpenApi\Annotations as OA;
 

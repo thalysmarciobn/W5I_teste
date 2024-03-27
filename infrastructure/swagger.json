@@ -49,11 +49,11 @@
                 }
             }
         },
-        "/api/categorias": {
+        "/api/categorias/lista": {
             "get": {
                 "summary": "Lista todas as categorias",
                 "description": "Retorna uma lista de categorias de veículos",
-                "operationId": "131310a1db9e3c781b3f475f16fea79f",
+                "operationId": "640ee2c431e1c82a42656b61220ab1e6",
                 "responses": {
                     "200": {
                         "description": "Operação Concluída",
@@ -67,6 +67,29 @@
                                 }
                             }
                         }
+                    }
+                }
+            }
+        },
+        "/api/categorias/remover": {
+            "delete": {
+                "summary": "Remove uma categoria",
+                "description": "Remove uma categoria pelo seu ID",
+                "operationId": "62227e7589bb3b89a2d6b1631bcbf831",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "description": "ID da categoria a ser removida",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Operação Concluída"
                     }
                 }
             }
@@ -88,6 +111,18 @@
                     "cor": {
                         "description": "Cor do Veículo,",
                         "type": "string"
+                    },
+                    "entrada": {
+                        "description": "Data de Entrada do Veículo,",
+                        "type": "string",
+                        "format": "date-time",
+                        "nullable": true
+                    },
+                    "saida": {
+                        "description": "Data de Saída do Veículo,",
+                        "type": "string",
+                        "format": "date-time",
+                        "nullable": true
                     }
                 },
                 "type": "object"
@@ -117,6 +152,11 @@
                     "nome": {
                         "description": "Categoria de Veículo",
                         "type": "string"
+                    },
+                    "taxa": {
+                        "description": "Taxa de Veículo",
+                        "type": "string",
+                        "format": "float"
                     }
                 },
                 "type": "object"

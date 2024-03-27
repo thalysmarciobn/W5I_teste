@@ -26,6 +26,14 @@ class Categoria
     #[ORM\Column(type: 'string')]
     private string $nome;
 
+    /**
+     * Taxa de Veículo
+     * @var float
+     * @OA\Property()
+     */
+    #[ORM\Column(type: 'float')]
+    private string $taxa;
+
     public function getNome(): string
     {
         return $this->nome;
@@ -34,5 +42,15 @@ class Categoria
     public function setNome(string $nome): void
     {
         $this->nome = $nome;
+    }
+
+    public function getTaxa(): float
+    {
+        return $this->taxa;
+    }
+
+    public function setTaxa(float $taxa): void
+    {
+        $this->taxa = $taxa;
     }
 }

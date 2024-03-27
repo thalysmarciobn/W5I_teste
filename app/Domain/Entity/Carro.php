@@ -43,6 +43,22 @@ class Carro
     #[ORM\Column(type: 'string')]
     private string $cor;
 
+    /**
+     * Data de Entrada do Veículo,
+     * @var \DateTime
+     * @OA\Property()
+     */
+    #[ORM\Column(type: 'datetime')]
+    private ?\DateTime $entrada;
+
+    /**
+     * Data de Saída do Veículo,
+     * @var \DateTime
+     * @OA\Property()
+     */
+    #[ORM\Column(type: 'datetime')]
+    private ?\DateTime $saida;
+
     public function getPlaca(): string
     {
         return $this->placa;
@@ -71,5 +87,25 @@ class Carro
     public function setModelo(CarroModelo $modelo): void
     {
         $this->modelo = $modelo;
+    }
+
+    public function getEntrada(): ?\DateTime
+    {
+        return $this->entrada;
+    }
+
+    public function setEntrada(\DateTime $dateTime): void
+    {
+        $this->entrada = $dateTime;
+    }
+
+    public function getSaida(): ?\DateTime
+    {
+        return $this->saida;
+    }
+
+    public function setSaida(\DateTime $dateTime): void
+    {
+        $this->saida = $dateTime;
     }
 }

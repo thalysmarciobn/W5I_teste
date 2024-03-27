@@ -23,7 +23,7 @@ final class CategoriaController {
 
     /**
      * @OA\Get(
-     *     path="/api/categorias",
+     *     path="/api/categorias/lista",
      *     summary="Lista todas as categorias",
      *     description="Retorna uma lista de categorias de veículos",
      *     @OA\Response(
@@ -36,9 +36,50 @@ final class CategoriaController {
      *     )
      * )
      */
-    public function categorias(Request $request, Response $response) {
+    public function lista(Request $request, Response $response) {
         $repository = $this->entityManager->getRepository(Categoria::class);
         $models = $repository->findAll();
         return new JsonResponse($models);
+    }
+
+    /**
+     * @OA\Delete(
+     *     path="/api/categorias/remover",
+     *     summary="Remove uma categoria",
+     *     description="Remove uma categoria pelo seu ID",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="query",
+     *         description="ID da categoria a ser removida",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Operação Concluída"
+     *     )
+     * )
+     */
+    public function remover(Request $request, Response $response): Response {
+        $id = $request->getQueryParams()['id'] ?? null;
+
+        if ($id == null)
+            return new JsonResponse(['code' => 400]);
+
+        $repository = $this->entityManager->getRepository(Categoria::class);
+
+        $registro = $repository->find($id);
+
+        if (!$registro)
+            return new JsonResponse(['code' => 404]);
+
+        try {
+            $this->entityManager->remove($registro);
+            $this->entityManager->flush();
+
+            return new JsonResponse(['code' => 200]);
+        } catch (\Exception $e) {
+            return new JsonResponse(['code' => 500]);
+        }
     }
 }

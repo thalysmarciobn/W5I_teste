@@ -38,7 +38,13 @@ final class CarroController {
     public function lista(Request $request, Response $response) {
         $repository = $this->entityManager->getRepository(Carro::class);
         $models = $repository->findAll();
-        return new JsonResponse($models);
+
+        $data = new \DateTime();
+
+        return new JsonResponse([
+            'data' => $models,
+            'dateTime' => $data->format('Y-m-d\TH:i:sP'),
+        ]);
     }
 
     /**
