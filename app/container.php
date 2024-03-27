@@ -1,16 +1,16 @@
 <?php
-namespace App;
+use DI\ContainerBuilder;
 
 use Doctrine\DBAL\DriverManager;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMSetup;
+use Psr\Container\ContainerInterface;
 
 $config = ORMSetup::createAttributeMetadataConfiguration(
-    paths: array(__DIR__."/src"),
+    paths: array(__DIR__ . '/Entity'),
     isDevMode: true,
 );
 
-// configuring the database connection
 $connection = DriverManager::getConnection([
     'driver' => 'pdo_mysql',
     'host' => 'localhost',
@@ -20,4 +20,13 @@ $connection = DriverManager::getConnection([
     'password' => '123tha123'
 ], $config);
 
-$entityManager = new EntityManager($connection, $config);
+
+$entityManagerFactory = new EntityManager($connection, $config);
+
+$containerBuilder = new ContainerBuilder();
+
+$containerBuilder->addDefinitions([
+    EntityManager::class => $entityManagerFactory
+]);
+
+return $containerBuilder->build();

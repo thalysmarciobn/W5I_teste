@@ -1,5 +1,6 @@
 <?php
-namespace App\Entity;
+
+namespace app\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -7,11 +8,11 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Table(name: 'carros')]
 class Carro
 {
-    #[Id, Column(type: 'integer'), GeneratedValue(strategy: 'AUTO')]
+    #[ORM\Id, ORM\Column(type: 'integer'), ORM\GeneratedValue]
     private int|null $id = null;
 
-    #[Column(type: 'string', unique: true, nullable: false)]
-    public $placa;
+    #[ORM\Column(type: 'string')]
+    private string $placa;
 
     public function getPlaca(): string
     {
