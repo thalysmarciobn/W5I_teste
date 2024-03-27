@@ -1,0 +1,46 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API Locação de Carros",
+        "version": "0.1"
+    },
+    "paths": {
+        "/api/carros/lista": {
+            "get": {
+                "summary": "Lista todos os carros",
+                "description": "Retorna uma lista de todos os carros cadastrados",
+                "operationId": "ea70398880412eb8972f0488d00cda7d",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Carro"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Carro": {
+                "title": "Carro",
+                "description": "Modelo de carro",
+                "properties": {
+                    "placa": {
+                        "description": "Placa do Veículo,",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            }
+        }
+    }
+}

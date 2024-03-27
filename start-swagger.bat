@@ -1,0 +1,1 @@
+"php8.1_composer/php.exe" vendor/bin/openapi app -o infrastructure/swagger.json

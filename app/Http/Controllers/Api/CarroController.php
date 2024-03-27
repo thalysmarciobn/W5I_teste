@@ -1,10 +1,10 @@
 <?php
 namespace App\Http\Controllers\Api;
 
+use App\Domain\Entity\Carro;
 use App\Http\Response\JsonResponse;
 use Doctrine\ORM\EntityManager;
-use Domain\Entity\Carro;
-
+use OpenApi\Annotations as OA;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
@@ -22,7 +22,16 @@ final class CarroController {
     /**
      * @OA\Get(
      *     path="/api/carros/lista",
-     *     @OA\Response(response="200", description="Lista de Carros")
+     *     summary="Lista todos os carros",
+     *     description="Retorna uma lista de todos os carros cadastrados",
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *         @OA\JsonContent(
+     *             type="array",
+     *             @OA\Items(ref="#/components/schemas/Carro")
+     *         )
+     *     )
      * )
      */
     public function lista(Request $request, Response $response) {

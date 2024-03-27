@@ -2,12 +2,9 @@
 namespace Infrastructure;
 
 use DI\ContainerBuilder;
-
 use Doctrine\DBAL\DriverManager;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMSetup;
-
-$openapi = \OpenApi\Generator::scan(['../app/Http/Controllers']);
 
 $config = ORMSetup::createAttributeMetadataConfiguration(
     paths: array(__DIR__ . '/Entity'),
