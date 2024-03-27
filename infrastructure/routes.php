@@ -2,14 +2,17 @@
 namespace Infrastructure;
 
 use app\Http\Controllers\Api\CarroController;
+use App\Http\Controllers\Api\CategoriaController;
 use App\Router\StaticRouteGroup as Group;
 use Slim\App;
 use Slim\Routing\RouteCollectorProxy;
 
 return function (App $app) {
     $app->group('/api', function (RouteCollectorProxy $group) {
+        $group->get('/categorias', [CategoriaController::class, 'categorias']);
         $group->group('/carros', function (RouteCollectorProxy $group) {
             $group->get('/lista', [CarroController::class, 'lista']);
+            $group->get('/modelos', [CarroController::class, 'modelos']);
         });
     });
 

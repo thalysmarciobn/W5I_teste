@@ -26,16 +26,96 @@
                     }
                 }
             }
+        },
+        "/api/carros/modelos": {
+            "get": {
+                "summary": "Lista todos os modelos de carros",
+                "description": "Retorna uma lista de modelos de todos os carros cadastrados",
+                "operationId": "fb64986603c0b91264ee57b14a6218e5",
+                "responses": {
+                    "200": {
+                        "description": "Operação Concluída",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/CarroModelo"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/categorias": {
+            "get": {
+                "summary": "Lista todas as categorias",
+                "description": "Retorna uma lista de categorias de veículos",
+                "operationId": "131310a1db9e3c781b3f475f16fea79f",
+                "responses": {
+                    "200": {
+                        "description": "Operação Concluída",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Categoria"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {
         "schemas": {
             "Carro": {
                 "title": "Carro",
-                "description": "Modelo de carro",
+                "description": "Entidade dos Carros",
                 "properties": {
                     "placa": {
                         "description": "Placa do Veículo,",
+                        "type": "string"
+                    },
+                    "modelo": {
+                        "$ref": "#/components/schemas/CarroModelo"
+                    },
+                    "cor": {
+                        "description": "Cor do Veículo,",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "CarroModelo": {
+                "title": "CarroModelo",
+                "description": "Entidade dos Modelos de Veículos",
+                "properties": {
+                    "nome": {
+                        "description": "Nome do Modelo do Veículo,",
+                        "type": "string"
+                    },
+                    "descricao": {
+                        "description": "Descrição do Modelo do Veículo,",
+                        "type": "string"
+                    },
+                    "categoria": {
+                        "$ref": "#/components/schemas/Categoria"
+                    }
+                },
+                "type": "object"
+            },
+            "Categoria": {
+                "title": "Categoria",
+                "description": "Entidade dos Categorias",
+                "properties": {
+                    "nome": {
+                        "description": "Categoria de Veículo",
                         "type": "string"
                     }
                 },

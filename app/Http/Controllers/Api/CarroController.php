@@ -2,6 +2,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Domain\Entity\Carro;
+use App\Domain\Entity\CarroModelo;
 use App\Http\Response\JsonResponse;
 use Doctrine\ORM\EntityManager;
 use OpenApi\Annotations as OA;
@@ -35,13 +36,29 @@ final class CarroController {
      * )
      */
     public function lista(Request $request, Response $response) {
-        $response = $response
-            ->withHeader('Access-Control-Allow-Origin', '*')
-            ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
-            ->withHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+        $repository = $this->entityManager->getRepository(Carro::class);
+        $models = $repository->findAll();
+        return new JsonResponse($models);
+    }
 
-        $carroRepository = $this->entityManager->getRepository(Carro::class);
-        $carros = $carroRepository->findAll();
-        return new JsonResponse($carros);
+    /**
+     * @OA\Get(
+     *     path="/api/carros/modelos",
+     *     summary="Lista todos os modelos de carros",
+     *     description="Retorna uma lista de modelos de todos os carros cadastrados",
+     *     @OA\Response(
+     *         response=200,
+     *         description="Operação Concluída",
+     *         @OA\JsonContent(
+     *             type="array",
+     *             @OA\Items(ref="#/components/schemas/CarroModelo")
+     *         )
+     *     )
+     * )
+     */
+    public function modelos(Request $request, Response $response) {
+        $repository = $this->entityManager->getRepository(CarroModelo::class);
+        $models = $repository->findAll();
+        return new JsonResponse($models);
     }
 }
