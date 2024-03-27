@@ -3,6 +3,7 @@ namespace App\Http\Action\Carros;
 
 use App\Http\Response\JsonResponse;
 use Doctrine\ORM\EntityManager;
+use Domain\Entity\Carro;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
@@ -18,10 +19,8 @@ final class ListaCarros implements RequestHandlerInterface
 
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        $carroRepository = $this->entityManager->getRepository('App\Entity\Carro');
+        $carroRepository = $this->entityManager->getRepository(Carro::class);
         $carros = $carroRepository->findAll();
-
-        print_r($carros[0]);
-        return new JsonResponse($carros[0]);
+        return new JsonResponse($carros);
     }
 }
