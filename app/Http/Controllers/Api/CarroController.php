@@ -2,7 +2,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Domain\Entity\Carro;
-use App\Domain\Entity\CarroModelo;
+use App\Domain\Entity\Categoria;
 use App\Http\Response\JsonResponse;
 use Doctrine\ORM\EntityManager;
 use OpenApi\Annotations as OA;
@@ -12,7 +12,8 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 /**
  * @OA\Info(title="API Locação de Carros", version="0.1")
  */
-final class CarroController {
+final class CarroController
+{
     private EntityManager $entityManager;
 
     public function __construct(EntityManager $entityManager)
@@ -35,36 +36,76 @@ final class CarroController {
      *     )
      * )
      */
-    public function lista(Request $request, Response $response) {
+    public function lista(Request $request, Response $response): Response
+    {
         $repository = $this->entityManager->getRepository(Carro::class);
-        $models = $repository->findAll();
 
-        $data = new \DateTime();
-
-        return new JsonResponse([
-            'data' => $models,
-            'dateTime' => $data->format('Y-m-d\TH:i:sP'),
-        ]);
+        return new JsonResponse($repository->findAll());
     }
 
     /**
-     * @OA\Get(
-     *     path="/api/carros/modelos",
-     *     summary="Lista todos os modelos de carros",
-     *     description="Retorna uma lista de modelos de todos os carros cadastrados",
+     * @OA\Post(
+     *     path="/api/carros/cadastrar",
+     *     summary="Cadastrar um novo carro",
+     *     description="Endpoint para cadastrar um novo carro",
+     *     @OA\RequestBody(
+     *         required=true,
+     *         description="Dados do carro a ser cadastrado",
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                 type="object",
+     *                 required={"placa", "cor", "entrada", "saida", "modeloId"},
+     *                 @OA\Property(property="placa", type="string", example="ABC1234"),
+     *                 @OA\Property(property="cor", type="string", example="Preto"),
+     *                 @OA\Property(property="modelo", type="integer", example=1)
+     *             )
+     *         )
+     *     ),
      *     @OA\Response(
-     *         response=200,
-     *         description="Operação Concluída",
+     *         response=201,
+     *         description="Carro cadastrado com sucesso",
      *         @OA\JsonContent(
-     *             type="array",
-     *             @OA\Items(ref="#/components/schemas/CarroModelo")
+     *             type="object",
+     *             @OA\Property(property="id", type="integer", example=1)
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Erro de validação dos dados",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="error", type="string", example="Parâmetros inválidos")
      *         )
      *     )
      * )
      */
-    public function modelos(Request $request, Response $response) {
-        $repository = $this->entityManager->getRepository(CarroModelo::class);
-        $models = $repository->findAll();
-        return new JsonResponse($models);
+    public function cadastrar(Request $request, Response $response): Response
+    {
+        $content = $request->getBody()->getContents();
+
+        $data = json_decode($content, true);
+
+        if ($data == null)
+            return new JsonResponse(['code' => 500]);
+
+        $placa = $data['placa'];
+        $cor = $data['cor'];
+        $categoriaId = $data['categoria'];
+
+        $categoria = $this->entityManager->find(Categoria::class, $categoriaId);
+
+        if (!$categoria)
+            return new JsonResponse(['code' => 404]);
+
+        $carro = new Carro();
+        $carro->setPlaca($placa);
+        $carro->setCor($cor);
+        $carro->setCategoria($categoria);
+
+        $this->entityManager->persist($carro);
+        $this->entityManager->flush();
+
+        return new JsonResponse(['code' => 200]);
     }
 }

@@ -12,11 +12,12 @@ return function (App $app) {
         $group->group('/categorias', function (RouteCollectorProxy $group) {
             $group->get('/lista', [CategoriaController::class, 'lista']);
             $group->delete('/remover', [CategoriaController::class, 'remover']);
+            $group->post('/cadastrar', [CategoriaController::class, 'cadastrar']);
         });
 
         $group->group('/carros', function (RouteCollectorProxy $group) {
             $group->get('/lista', [CarroController::class, 'lista']);
-            $group->get('/modelos', [CarroController::class, 'modelos']);
+            $group->post('/cadastrar', [CarroController::class, 'cadastrar']);
         });
     });
 

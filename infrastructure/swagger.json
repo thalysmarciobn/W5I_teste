@@ -27,21 +27,72 @@
                 }
             }
         },
-        "/api/carros/modelos": {
-            "get": {
-                "summary": "Lista todos os modelos de carros",
-                "description": "Retorna uma lista de modelos de todos os carros cadastrados",
-                "operationId": "fb64986603c0b91264ee57b14a6218e5",
+        "/api/carros/cadastrar": {
+            "post": {
+                "summary": "Cadastrar um novo carro",
+                "description": "Endpoint para cadastrar um novo carro",
+                "operationId": "748f81fb37f37c9420c9c4773bf23add",
+                "requestBody": {
+                    "description": "Dados do carro a ser cadastrado",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "placa",
+                                    "cor",
+                                    "entrada",
+                                    "saida",
+                                    "modeloId"
+                                ],
+                                "properties": {
+                                    "placa": {
+                                        "type": "string",
+                                        "example": "ABC1234"
+                                    },
+                                    "cor": {
+                                        "type": "string",
+                                        "example": "Preto"
+                                    },
+                                    "modelo": {
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
                 "responses": {
-                    "200": {
-                        "description": "Operação Concluída",
+                    "201": {
+                        "description": "Carro cadastrado com sucesso",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/CarroModelo"
-                                    }
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Erro de validação dos dados",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Parâmetros inválidos"
+                                        }
+                                    },
+                                    "type": "object"
                                 }
                             }
                         }
@@ -93,6 +144,79 @@
                     }
                 }
             }
+        },
+        "/api/categorias/cadastrar": {
+            "post": {
+                "summary": "Cadastrar um novo carro",
+                "description": "Endpoint para cadastrar um novo carro",
+                "operationId": "b7a7bfa2057731d1c0aceab496074627",
+                "requestBody": {
+                    "description": "Dados do carro a ser cadastrado",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "placa",
+                                    "cor",
+                                    "entrada",
+                                    "saida",
+                                    "modeloId"
+                                ],
+                                "properties": {
+                                    "placa": {
+                                        "type": "string",
+                                        "example": "ABC1234"
+                                    },
+                                    "cor": {
+                                        "type": "string",
+                                        "example": "Preto"
+                                    },
+                                    "modelo": {
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Carro cadastrado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Erro de validação dos dados",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Parâmetros inválidos"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -105,42 +229,12 @@
                         "description": "Placa do Veículo,",
                         "type": "string"
                     },
-                    "modelo": {
-                        "$ref": "#/components/schemas/CarroModelo"
+                    "categoria": {
+                        "$ref": "#/components/schemas/Categoria"
                     },
                     "cor": {
                         "description": "Cor do Veículo,",
                         "type": "string"
-                    },
-                    "entrada": {
-                        "description": "Data de Entrada do Veículo,",
-                        "type": "string",
-                        "format": "date-time",
-                        "nullable": true
-                    },
-                    "saida": {
-                        "description": "Data de Saída do Veículo,",
-                        "type": "string",
-                        "format": "date-time",
-                        "nullable": true
-                    }
-                },
-                "type": "object"
-            },
-            "CarroModelo": {
-                "title": "CarroModelo",
-                "description": "Entidade dos Modelos de Veículos",
-                "properties": {
-                    "nome": {
-                        "description": "Nome do Modelo do Veículo,",
-                        "type": "string"
-                    },
-                    "descricao": {
-                        "description": "Descrição do Modelo do Veículo,",
-                        "type": "string"
-                    },
-                    "categoria": {
-                        "$ref": "#/components/schemas/Categoria"
                     }
                 },
                 "type": "object"
@@ -157,6 +251,29 @@
                         "description": "Taxa de Veículo",
                         "type": "string",
                         "format": "float"
+                    }
+                },
+                "type": "object"
+            },
+            "Estacionamento": {
+                "title": "Estacionamento",
+                "description": "Entidade do Estacionamento",
+                "properties": {
+                    "entrada": {
+                        "description": "Data de Entrada do Veículo,",
+                        "type": "string",
+                        "format": "date-time",
+                        "nullable": true
+                    },
+                    "saida": {
+                        "description": "Data de Saída do Veículo,",
+                        "type": "string",
+                        "format": "date-time",
+                        "nullable": true
+                    },
+                    "park": {
+                        "description": "Caso o Veículo Esteja Estacionado,",
+                        "type": "integer"
                     }
                 },
                 "type": "object"

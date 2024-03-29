@@ -31,9 +31,9 @@ class Carro
      * @var CarroModelo
      * @OA\Property()
      */
-    #[ORM\ManyToOne(targetEntity: CarroModelo::class)]
-    #[ORM\JoinColumn(name: 'modelo_id', referencedColumnName: 'id')]
-    private CarroModelo $modelo;
+    #[ORM\ManyToOne(targetEntity: Categoria::class)]
+    #[ORM\JoinColumn(name: 'categoria_id', referencedColumnName: 'id')]
+    private Categoria $categoria;
 
     /**
      * Cor do Veículo,
@@ -42,22 +42,6 @@ class Carro
      */
     #[ORM\Column(type: 'string')]
     private string $cor;
-
-    /**
-     * Data de Entrada do Veículo,
-     * @var \DateTime
-     * @OA\Property()
-     */
-    #[ORM\Column(type: 'datetime')]
-    private ?\DateTime $entrada;
-
-    /**
-     * Data de Saída do Veículo,
-     * @var \DateTime
-     * @OA\Property()
-     */
-    #[ORM\Column(type: 'datetime')]
-    private ?\DateTime $saida;
 
     public function getPlaca(): string
     {
@@ -79,33 +63,13 @@ class Carro
         $this->cor = $cor;
     }
 
-    public function getModelo(): CarroModelo
+    public function getCategoria(): Categoria
     {
-        return $this->modelo;
+        return $this->categoria;
     }
 
-    public function setModelo(CarroModelo $modelo): void
+    public function setCategoria(Categoria $categoria): void
     {
-        $this->modelo = $modelo;
-    }
-
-    public function getEntrada(): ?\DateTime
-    {
-        return $this->entrada;
-    }
-
-    public function setEntrada(\DateTime $dateTime): void
-    {
-        $this->entrada = $dateTime;
-    }
-
-    public function getSaida(): ?\DateTime
-    {
-        return $this->saida;
-    }
-
-    public function setSaida(\DateTime $dateTime): void
-    {
-        $this->saida = $dateTime;
+        $this->categoria = $categoria;
     }
 }
