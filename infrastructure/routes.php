@@ -3,6 +3,7 @@ namespace Infrastructure;
 
 use app\Http\Controllers\Api\CarroController;
 use App\Http\Controllers\Api\CategoriaController;
+use App\Http\Controllers\Api\EstacionamentoController;
 use App\Router\StaticRouteGroup as Group;
 use Slim\App;
 use Slim\Routing\RouteCollectorProxy;
@@ -18,6 +19,10 @@ return function (App $app) {
         $group->group('/carros', function (RouteCollectorProxy $group) {
             $group->get('/lista', [CarroController::class, 'lista']);
             $group->post('/cadastrar', [CarroController::class, 'cadastrar']);
+        });
+
+        $group->group('/estacionamento', function (RouteCollectorProxy $group) {
+            $group->get('/lista', [EstacionamentoController::class, 'lista']);
         });
     });
 

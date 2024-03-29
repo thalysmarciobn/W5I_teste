@@ -217,6 +217,28 @@
                     }
                 }
             }
+        },
+        "/api/estacionamento/lista": {
+            "get": {
+                "summary": "Lista todos os carros estacionados",
+                "description": "Retorna uma lista de todos os carros estacionados",
+                "operationId": "0dc2fe2251fc951f778a7ded65c12134",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Estacionamento"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {

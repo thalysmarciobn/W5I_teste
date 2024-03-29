@@ -55,10 +55,10 @@ final class CarroController
      *             mediaType="application/json",
      *             @OA\Schema(
      *                 type="object",
-     *                 required={"placa", "cor", "entrada", "saida", "modeloId"},
+     *                 required={"placa", "cor", "categoriaId"},
      *                 @OA\Property(property="placa", type="string", example="ABC1234"),
      *                 @OA\Property(property="cor", type="string", example="Preto"),
-     *                 @OA\Property(property="modelo", type="integer", example=1)
+     *                 @OA\Property(property="categoriaId", type="integer", example=1)
      *             )
      *         )
      *     ),
