@@ -143,11 +143,16 @@ final class CategoriaController
         $nome = $data['nome'];
         $taxa = $data['taxa'];
 
-        $categoria = new Categoria();
-        $categoria->setNome($nome);
-        $categoria->setTaxa($taxa);
+        $categoriaExist = $this->entityManager->getRepository(Categoria::class)->findOneBy(['nome' => $nome]);
 
-        $this->entityManager->persist($categoria);
+        if ($categoriaExist)
+            return new JsonResponse(['code' => 500]);
+
+        $categoriaModel = new Categoria();
+        $categoriaModel->setNome($nome);
+        $categoriaModel->setTaxa($taxa);
+
+        $this->entityManager->persist($categoriaModel);
         $this->entityManager->flush();
 
         return new JsonResponse(['code' => 200]);

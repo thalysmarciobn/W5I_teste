@@ -98,12 +98,17 @@ final class CarroController
         if (!$categoria)
             return new JsonResponse(['code' => 404]);
 
-        $carro = new Carro();
-        $carro->setPlaca($placa);
-        $carro->setCor($cor);
-        $carro->setCategoria($categoria);
+        $carroExist = $this->entityManager->getRepository(Carro::class)->findOneBy(['placa' => $placa]);
 
-        $this->entityManager->persist($carro);
+        if ($carroExist)
+            return new JsonResponse(['code' => 500]);
+
+        $carroModel = new Carro();
+        $carroModel->setPlaca($placa);
+        $carroModel->setCor($cor);
+        $carroModel->setCategoria($categoria);
+
+        $this->entityManager->persist($carroModel);
         $this->entityManager->flush();
 
         return new JsonResponse(['code' => 200]);
