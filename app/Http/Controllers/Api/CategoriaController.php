@@ -97,19 +97,18 @@ final class CategoriaController
     /**
      * @OA\Post(
      *     path="/api/categorias/cadastrar",
-     *     summary="Cadastrar um novo carro",
+     *     summary="Cadastrar uma nova categoria",
      *     description="Endpoint para cadastrar um novo carro",
      *     @OA\RequestBody(
      *         required=true,
      *         description="Dados do carro a ser cadastrado",
      *         @OA\MediaType(
-     *             mediaType="application/json",
+     *             mediaType="multipart/form-data",
      *             @OA\Schema(
      *                 type="object",
-     *                 required={"placa", "cor", "entrada", "saida", "modeloId"},
-     *                 @OA\Property(property="placa", type="string", example="ABC1234"),
-     *                 @OA\Property(property="cor", type="string", example="Preto"),
-     *                 @OA\Property(property="modelo", type="integer", example=1)
+     *                 required={"nome", "taxa"},
+     *                 @OA\Property(property="nome", type="string", example="ABC1234"),
+     *                 @OA\Property(property="taxa", type="double", example=1.0)
      *             )
      *         )
      *     ),
@@ -133,15 +132,13 @@ final class CategoriaController
      */
     public function cadastrar(Request $request, Response $response): Response
     {
-        $content = $request->getBody()->getContents();
+        $body = $request->getParsedBody();
 
-        $data = json_decode($content, true);
+        $nome = $body['nome'] ?? null;
+        $taxa = $body['taxa'] ?? null;
 
-        if ($data == null)
+        if ($nome === null || $taxa === null)
             return new JsonResponse(['code' => 500]);
-
-        $nome = $data['nome'];
-        $taxa = $data['taxa'];
 
         $categoriaExist = $this->entityManager->getRepository(Categoria::class)->findOneBy(['nome' => $nome]);
 

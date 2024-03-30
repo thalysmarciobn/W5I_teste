@@ -36,14 +36,12 @@
                     "description": "Dados do carro a ser cadastrado",
                     "required": true,
                     "content": {
-                        "application/json": {
+                        "multipart/form-data": {
                             "schema": {
                                 "required": [
                                     "placa",
                                     "cor",
-                                    "entrada",
-                                    "saida",
-                                    "modeloId"
+                                    "categoriaId"
                                 ],
                                 "properties": {
                                     "placa": {
@@ -54,7 +52,7 @@
                                         "type": "string",
                                         "example": "Preto"
                                     },
-                                    "modelo": {
+                                    "categoriaId": {
                                         "type": "integer",
                                         "example": 1
                                     }
@@ -147,33 +145,27 @@
         },
         "/api/categorias/cadastrar": {
             "post": {
-                "summary": "Cadastrar um novo carro",
+                "summary": "Cadastrar uma nova categoria",
                 "description": "Endpoint para cadastrar um novo carro",
                 "operationId": "b7a7bfa2057731d1c0aceab496074627",
                 "requestBody": {
                     "description": "Dados do carro a ser cadastrado",
                     "required": true,
                     "content": {
-                        "application/json": {
+                        "multipart/form-data": {
                             "schema": {
                                 "required": [
-                                    "placa",
-                                    "cor",
-                                    "entrada",
-                                    "saida",
-                                    "modeloId"
+                                    "nome",
+                                    "taxa"
                                 ],
                                 "properties": {
-                                    "placa": {
+                                    "nome": {
                                         "type": "string",
                                         "example": "ABC1234"
                                     },
-                                    "cor": {
-                                        "type": "string",
-                                        "example": "Preto"
-                                    },
-                                    "modelo": {
-                                        "type": "integer",
+                                    "taxa": {
+                                        "type": "number",
+                                        "format": "double",
                                         "example": 1
                                     }
                                 },
@@ -233,6 +225,77 @@
                                     "items": {
                                         "$ref": "#/components/schemas/Estacionamento"
                                     }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/estacionamento/enviar": {
+            "post": {
+                "summary": "Envia um entrada ou saída de um carro",
+                "description": "Dá entrada em ou saída um carro no estacionamento",
+                "operationId": "a7138fc84d6005ec0b85e0f7dcb3b1b1",
+                "requestBody": {
+                    "description": "Dados para a entrada",
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "placa",
+                                    "data",
+                                    "park"
+                                ],
+                                "properties": {
+                                    "placa": {
+                                        "type": "string",
+                                        "example": "000000"
+                                    },
+                                    "data": {
+                                        "type": "string",
+                                        "example": "2018-06-07T10:00"
+                                    },
+                                    "park": {
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Entrada cadastrada com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Erro de validação dos dados",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Parâmetros inválidos"
+                                        }
+                                    },
+                                    "type": "object"
                                 }
                             }
                         }

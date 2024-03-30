@@ -23,6 +23,7 @@ return function (App $app) {
 
         $group->group('/estacionamento', function (RouteCollectorProxy $group) {
             $group->get('/lista', [EstacionamentoController::class, 'lista']);
+            $group->post('/enviar', [EstacionamentoController::class, 'enviar']);
         });
     });
 

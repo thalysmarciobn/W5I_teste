@@ -43,6 +43,11 @@ class Carro
     #[ORM\Column(type: 'string')]
     private string $cor;
 
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
     public function getPlaca(): string
     {
         return $this->placa;

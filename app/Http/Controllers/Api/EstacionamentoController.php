@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers\Api;
 
+use App\Domain\Entity\Carro;
 use App\Domain\Entity\Estacionamento;
 use App\Http\Response\JsonResponse;
 use Doctrine\ORM\EntityManager;
@@ -45,26 +46,26 @@ final class EstacionamentoController
 
     /**
      * @OA\Post(
-     *     path="/api/estacionamento/entrada",
-     *     summary="Dá entrada em um carro",
-     *     description="Dá entrada em um carro no estacionamento",
+     *     path="/api/estacionamento/enviar",
+     *     summary="Envia um entrada ou saída de um carro",
+     *     description="Dá entrada em ou saída um carro no estacionamento",
      *     @OA\RequestBody(
      *         required=true,
      *         description="Dados para a entrada",
      *         @OA\MediaType(
-     *             mediaType="application/json",
+     *             mediaType="multipart/form-data",
      *             @OA\Schema(
      *                 type="object",
-     *                 required={"placa", "cor", "entrada", "saida", "modeloId"},
-     *                 @OA\Property(property="placa", type="string", example="ABC1234"),
-     *                 @OA\Property(property="cor", type="string", example="Preto"),
-     *                 @OA\Property(property="modelo", type="integer", example=1)
+     *                 required={"placa", "data", "park"},
+     *                 @OA\Property(property="placa", type="string", example="000000"),
+     *                 @OA\Property(property="data", type="string", example="2018-06-07T10:00"),
+     *                 @OA\Property(property="park", type="integer", example=1)
      *             )
      *         )
      *     ),
      *     @OA\Response(
      *         response=201,
-     *         description="Carro cadastrado com sucesso",
+     *         description="Entrada cadastrada com sucesso",
      *         @OA\JsonContent(
      *             type="object",
      *             @OA\Property(property="id", type="integer", example=1)
@@ -80,4 +81,53 @@ final class EstacionamentoController
      *     )
      * )
      */
+    public function enviar(Request $request, Response $response): Response
+    {
+        $body = $request->getParsedBody();
+
+        $placa = $body['placa'] ?? null;
+        $data = $body['data'] ?? null;
+        $acao = isset($body['park']) ? intval($body['park']) : null;
+
+        if ($placa === null || $data === null || $acao === null) {
+            return new JsonResponse(['code' => 500]);
+        }
+
+        $carro = $this->entityManager->getRepository(Carro::class)->findOneBy(['placa' => $placa]);
+
+        if (!$carro) {
+            return new JsonResponse(['code' => 404]);
+        }
+
+        $estacionamento = $this->entityManager->getRepository(Estacionamento::class)->findOneBy(['carro' => $carro, 'park' => 1]);
+
+        if ($acao == 1 && $estacionamento != null) {
+            $estacionamento->setSaida(new \DateTime($data));
+            $estacionamento->setPark(0);
+
+            $this->entityManager->persist($estacionamento);
+            $this->entityManager->flush();
+
+            return new JsonResponse(['code' => 200, 'op' => 2]);
+        }
+
+        if ($acao == 0 && $estacionamento == null) {
+            $estacionamento = new Estacionamento();
+            $estacionamento->setEntrada(new \DateTime($data));
+            $estacionamento->setPark(1);
+            $estacionamento->setCarro($carro);
+
+            $this->entityManager->persist($estacionamento);
+            $this->entityManager->flush();
+
+            return new JsonResponse(['code' => 200, 'op' => 1]);
+        }
+
+        if ($estacionamento == null) {
+            return new JsonResponse(['code' => 200, 'op' => 4]);
+        }
+
+        return new JsonResponse(['code' => 200, 'op' => 3]);
+    }
+
 }

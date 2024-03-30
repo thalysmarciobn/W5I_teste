@@ -52,7 +52,7 @@ final class CarroController
      *         required=true,
      *         description="Dados do carro a ser cadastrado",
      *         @OA\MediaType(
-     *             mediaType="application/json",
+     *             mediaType="multipart/form-data",
      *             @OA\Schema(
      *                 type="object",
      *                 required={"placa", "cor", "categoriaId"},
@@ -82,16 +82,15 @@ final class CarroController
      */
     public function cadastrar(Request $request, Response $response): Response
     {
-        $content = $request->getBody()->getContents();
+        $body = $request->getParsedBody();
 
-        $data = json_decode($content, true);
+        $placa = $body['placa'] ?? null;
+        $cor = $body['cor'] ?? null;
+        $categoriaId = $body['categoria'] ?? null;
 
-        if ($data == null)
+        if ($placa === null || $cor === null || $categoriaId === null) {
             return new JsonResponse(['code' => 500]);
-
-        $placa = $data['placa'];
-        $cor = $data['cor'];
-        $categoriaId = $data['categoria'];
+        }
 
         $categoria = $this->entityManager->find(Categoria::class, $categoriaId);
 

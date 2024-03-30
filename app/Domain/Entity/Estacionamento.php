@@ -42,6 +42,10 @@ class Estacionamento
     #[ORM\Column(type: 'integer')]
     private int $park;
 
+    #[ORM\ManyToOne(targetEntity: "Carro")]
+    #[ORM\JoinColumn(name: "carro_id", referencedColumnName: "id")]
+    private Carro $carro;
+
     public function getEntrada(): ?\DateTime
     {
         return $this->entrada;
@@ -71,4 +75,15 @@ class Estacionamento
     {
         $this->park = $park;
     }
+
+    public function getCarro(): ?Carro
+    {
+        return $this->carro;
+    }
+
+    public function setCarro(Carro $carro): void
+    {
+        $this->carro = $carro;
+    }
+
 }
