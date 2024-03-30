@@ -40,7 +40,7 @@ final class CarroController
     {
         $repository = $this->entityManager->getRepository(Carro::class);
 
-        return new JsonResponse($repository->findAll());
+        return new JsonResponse($repository->findBy([], ['id' => 'DESC']));
     }
 
     /**

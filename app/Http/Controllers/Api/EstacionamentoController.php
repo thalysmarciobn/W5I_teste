@@ -41,7 +41,7 @@ final class EstacionamentoController
     {
         $repository = $this->entityManager->getRepository(Estacionamento::class);
 
-        return new JsonResponse($repository->findAll());
+        return new JsonResponse($repository->findBy([], ['id' => 'DESC']));
     }
 
     /**
