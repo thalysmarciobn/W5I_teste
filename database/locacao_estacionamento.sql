@@ -16,32 +16,33 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `carros`
+-- Table structure for table `estacionamento`
 --
 
-DROP TABLE IF EXISTS `carros`;
+DROP TABLE IF EXISTS `estacionamento`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `carros` (
+CREATE TABLE `estacionamento` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `placa` varchar(45) NOT NULL,
-  `cor` varchar(45) NOT NULL,
-  `categoria_id` int DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `placa_UNIQUE` (`placa`),
-  KEY `fk_carros_categorias` (`categoria_id`),
-  CONSTRAINT `fk_carros_categorias` FOREIGN KEY (`categoria_id`) REFERENCES `categorias` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `entrada` datetime NOT NULL,
+  `saida` datetime DEFAULT NULL,
+  `park` int NOT NULL,
+  `valor` float DEFAULT NULL,
+  `carro_id` int NOT NULL,
+  PRIMARY KEY (`id`,`entrada`),
+  KEY `fk_carro_id_fk` (`carro_id`),
+  CONSTRAINT `fk_carro_id_fk` FOREIGN KEY (`carro_id`) REFERENCES `carros` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `carros`
+-- Dumping data for table `estacionamento`
 --
 
-LOCK TABLES `carros` WRITE;
-/*!40000 ALTER TABLE `carros` DISABLE KEYS */;
-INSERT INTO `carros` VALUES (11,'000000','Branco',11),(12,'000001','Cinza',13);
-/*!40000 ALTER TABLE `carros` ENABLE KEYS */;
+LOCK TABLES `estacionamento` WRITE;
+/*!40000 ALTER TABLE `estacionamento` DISABLE KEYS */;
+INSERT INTO `estacionamento` VALUES (2,'2024-03-31 22:30:00','2024-03-31 12:30:00',0,44.9,12),(3,'2024-03-31 01:30:00','2024-03-31 03:30:00',0,8.98,12),(4,'2024-03-30 09:50:00','2024-03-30 11:50:00',0,8.98,12);
+/*!40000 ALTER TABLE `estacionamento` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 

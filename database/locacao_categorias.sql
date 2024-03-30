@@ -25,9 +25,9 @@ DROP TABLE IF EXISTS `categorias`;
 CREATE TABLE `categorias` (
   `id` int NOT NULL AUTO_INCREMENT,
   `nome` varchar(45) NOT NULL,
-  `taxa` float DEFAULT NULL,
-  PRIMARY KEY (`id`,`nome`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `taxa` float NOT NULL,
+  PRIMARY KEY (`id`,`nome`,`taxa`)
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -36,7 +36,7 @@ CREATE TABLE `categorias` (
 
 LOCK TABLES `categorias` WRITE;
 /*!40000 ALTER TABLE `categorias` DISABLE KEYS */;
-INSERT INTO `categorias` VALUES (1,'Compacto',5),(2,'Sedan',5),(3,'SUV',8),(4,'Picape',10),(5,'Esportivo',15),(6,'Cupê',5),(7,'Crossover',5),(8,'Hatchback',5),(9,'Minivan',25),(10,'Conversível',5);
+INSERT INTO `categorias` VALUES (11,'Sedan',5),(12,'SUV',7),(13,'Hatchback',4.49),(14,'Picape',8),(15,'Cupê',6);
 /*!40000 ALTER TABLE `categorias` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -49,4 +49,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-03-27 17:08:15
+-- Dump completed on 2024-03-30  8:55:05
