@@ -105,6 +105,18 @@ final class EstacionamentoController
             $estacionamento->setSaida(new \DateTime($data));
             $estacionamento->setPark(0);
 
+            $entrada = $estacionamento->getEntrada();
+            $saida = $estacionamento->getSaida();
+
+            $diferenca = $saida->diff($entrada);
+            $horas = $diferenca->h + ($diferenca->days * 24);
+
+            $taxaHora = $estacionamento->getCarro()->getCategoria()->getTaxa();
+
+            $valorEstacionamento = round($horas * $taxaHora, 2);
+
+            $estacionamento->setValor($valorEstacionamento);
+
             $this->entityManager->persist($estacionamento);
             $this->entityManager->flush();
 

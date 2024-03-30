@@ -42,6 +42,14 @@ class Estacionamento
     #[ORM\Column(type: 'integer')]
     private int $park;
 
+    /**
+     * Valor do Estacionamento
+     * @var float
+     * @OA\Property()
+     */
+    #[ORM\Column(type: 'float')]
+    private float $valor;
+
     #[ORM\ManyToOne(targetEntity: "Carro")]
     #[ORM\JoinColumn(name: "carro_id", referencedColumnName: "id")]
     private Carro $carro;
@@ -74,6 +82,16 @@ class Estacionamento
     public function setPark(int $park): void
     {
         $this->park = $park;
+    }
+
+    public function getValor(): float
+    {
+        return $this->valor;
+    }
+
+    public function setValor(float $valor): void
+    {
+        $this->valor = $valor;
     }
 
     public function getCarro(): ?Carro
